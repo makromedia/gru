@@ -6,7 +6,7 @@ import json
 import sys
 
 def preencher_gru(data):
-    # Configurações do Selenium Grid
+    # Configurações do Selenium
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
