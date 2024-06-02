@@ -14,12 +14,21 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3  # Atualizado para v3
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v4  # Atualizado para v4
+      uses: actions/setup-python@v4
       with:
         python-version: '3.x'
+
+    - name: Debug information
+      run: |
+        echo "**** Debug Information ****"
+        uname -a
+        python --version
+        pip --version
+        which pip
+        which python
 
     - name: Install dependencies
       run: |
@@ -27,6 +36,13 @@ jobs:
         sudo apt-get install -y wget unzip
         python -m pip install --upgrade pip
         pip install selenium webdriver-manager
+
+    - name: Debug information after installation
+      run: |
+        echo "**** After Installation ****"
+        pip list
+        wget --version
+        unzip --version
 
     - name: Download and setup Chrome WebDriver
       run: |
@@ -36,11 +52,14 @@ jobs:
         sudo chmod +x /usr/local/bin/chromedriver
 
     - name: Verify Chrome WebDriver installation
-      run: chromedriver --version
+      run: |
+        echo "**** Verify Chrome WebDriver ****"
+        chromedriver --version
 
     - name: Run automation script
       env:
         DATA: ${{ github.event.inputs.data }}
       run: |
+        echo "**** Run Automation Script ****"
         echo "$DATA" > data.json
         python automate_gru.py "$DATA"
