@@ -14,21 +14,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4  # Atualizado para v4
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4  # Atualizado para v4
+      uses: actions/setup-python@v4
       with:
         python-version: '3.x'
-
-    - name: Debug information
-      run: |
-        echo "**** Debug Information ****"
-        uname -a
-        python --version
-        pip --version
-        which pip
-        which python
 
     - name: Install dependencies
       run: |
@@ -37,35 +28,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install selenium webdriver-manager
 
-    - name: Debug information after installation
-      run: |
-        echo "**** After Installation ****"
-        pip list
-        wget --version
-        unzip --version
-
     - name: Download and setup Chrome WebDriver
       run: |
-        echo "**** Download and setup Chrome WebDriver ****"
         wget -q "https://chromedriver.storage.googleapis.com/$(wget -q -O - https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip"
         unzip chromedriver_linux64.zip
         sudo mv chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
 
     - name: Verify Chrome WebDriver installation
-      run: |
-        echo "**** Verify Chrome WebDriver ****"
-        chromedriver --version
+      run: chromedriver --version
 
     - name: Run automation script
       env:
         DATA: ${{ github.event.inputs.data }}
       run: |
-        echo "**** Run Automation Script ****"
         echo "$DATA" > data.json
         python automate_gru.py "$DATA"
 
     - name: Check for errors
-      run: |
-        echo "**** Check for Errors ****"
-        dmesg | grep -i error
+      run: dmesg | grep -i error
