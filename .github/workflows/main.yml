@@ -46,6 +46,7 @@ jobs:
 
     - name: Download and setup Chrome WebDriver
       run: |
+        echo "**** Download and setup Chrome WebDriver ****"
         wget -q "https://chromedriver.storage.googleapis.com/$(wget -q -O - https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip"
         unzip chromedriver_linux64.zip
         sudo mv chromedriver /usr/local/bin/
@@ -63,3 +64,8 @@ jobs:
         echo "**** Run Automation Script ****"
         echo "$DATA" > data.json
         python automate_gru.py "$DATA"
+
+    - name: Check for errors
+      run: |
+        echo "**** Check for Errors ****"
+        dmesg | grep -i error
