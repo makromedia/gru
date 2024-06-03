@@ -37,14 +37,14 @@ jobs:
         sudo chmod +x /usr/local/bin/chromedriver
 
     - name: Verify Chrome WebDriver installation
-      run: sudo chromedriver --version
+      run: sudo /usr/local/bin/chromedriver --version
 
     - name: Run automation script
       env:
         DATA: ${{ github.event.inputs.data }}
       run: |
         echo "$DATA" > data.json
-        sudo python3 automate_gru.py "$DATA"
+        sudo python3 automate_gru.py "$(cat data.json)"
 
     - name: Check for errors
       run: sudo dmesg | grep -i error
