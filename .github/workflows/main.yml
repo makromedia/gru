@@ -21,51 +21,29 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Debug information
-      run: |
-        echo "**** Debug Information ****"
-        uname -a
-        python --version
-        pip --version
-        which pip
-        which python
-
     - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y wget unzip
-        python -m pip install --upgrade pip
-        pip install selenium webdriver-manager
-
-    - name: Debug information after installation
-      run: |
-        echo "**** After Installation ****"
-        pip list
-        wget --version
-        unzip --version
+        sudo apt-get install -y python3-pip
+        pip3 install selenium webdriver-manager
 
     - name: Download and setup Chrome WebDriver
       run: |
-        echo "**** Download and setup Chrome WebDriver ****"
         wget -q "https://chromedriver.storage.googleapis.com/$(wget -q -O - https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip"
         unzip chromedriver_linux64.zip
         sudo mv chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
 
     - name: Verify Chrome WebDriver installation
-      run: |
-        echo "**** Verify Chrome WebDriver ****"
-        chromedriver --version
+      run: chromedriver --version
 
     - name: Run automation script
       env:
         DATA: ${{ github.event.inputs.data }}
       run: |
-        echo "**** Run Automation Script ****"
         echo "$DATA" > data.json
-        python automate_gru.py "$DATA"
+        python3 automate_gru.py "$DATA"
 
     - name: Check for errors
-      run: |
-        echo "**** Check for Errors ****"
-        dmesg | grep -i error
+      run: dmesg | grep -i error
