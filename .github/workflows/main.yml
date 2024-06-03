@@ -26,7 +26,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y wget unzip
         sudo apt-get install -y python3-pip
-        pip3 install selenium webdriver-manager
+        python3 -m pip install --upgrade pip
+        pip install selenium webdriver-manager
 
     - name: Download and setup Chrome WebDriver
       run: |
